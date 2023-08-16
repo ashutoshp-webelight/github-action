@@ -1,0 +1,114 @@
+services:
+  app:
+    image: "python:3.10"
+    container_name: "tappstr-app-local"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    volumes:
+      - ./src:/code:ro
+      - ./.env:/code/.env:ro
+    working_dir: /code
+    ports:
+      - "8000:80"
+    networks:
+      - backend
+    entrypoint: [ "python", "main.py run 0.0.0.0 80 --debug" ]
+
+  postgresql:
+    image: "postgres:alpine"
+    container_name: "tappstr-postgresql"
+    env_file:
+      - .env
+    environment:
+      - "POSTGRES_USER=${DATABASE_USER}"
+      - "POSTGRES_PASSWORD=${DATABASE_PASSWORD}"
+      - "POSTGRES_DB=${DATABASE_NAME}"
+    volumes:
+      - postgresql:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME} -h localhost -p 5432"
+        ]
+      start_period: 5s
+      interval: 10s
+      timeout: 5s
+
+  strapi:
+    container_name: tappstr_strapi
+    image: naskio/strapi:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: postgresql
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      NODE_ENV: ${ENV}
+    volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./yarn.lock:/opt/yarn.lock
+      - ./.env:/opt/app/.env
+      - ./public/uploads:/opt/app/public/uploads
+    ports:
+      - 1337:1337
+    networks:
+      - default
+    depends_on:
+      - postgresql
+
+  pgadmin:
+    container_name: tappstr-pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@tappstr.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    env_file:
+      - .env
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-9062}:80"
+    networks:
+      - backend
+
+  redis:
+    container_name: tappstr-redis
+    image: redis:latest
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-admin}
+    env_file:
+      - .env
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: "tappstr-backend"
+    driver: bridge
+
+volumes:
+  postgresql:
+    name: "tappstr-postgresql"
+  pgadmin:
+    name: pgadmin
+  redis:
+    name: tappstr-redis

@@ -1,0 +1,6 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": ["tappui", "tappuiadmin", "tappstr", "uicore"],
+  "ignorePaths": ["yarn.lock", "nginx", ".gitignore"]
+}

@@ -1,0 +1,24 @@
+services:
+  tappui:
+    container_name: "${NAME}"
+    image: "${DOCKER_COMPOSE_IMAGE_NAME}"
+    build:
+      dockerfile: Dockerfile.tappui
+    env_file:
+      - .env-tappui
+    ports:
+      - "${DOCKER_PORT}:3000"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "${AWS_REGION}"
+        awslogs-group: ${AWS_LOGS_GROUP}
+        awslogs-create-group: "true"
+        tag: "{{.Name}}"
+    networks:
+      - default
+
+networks:
+  default:
+    name: "${NAME}-backend"
+    driver: bridge

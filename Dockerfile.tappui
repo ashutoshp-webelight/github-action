@@ -1,0 +1,29 @@
+FROM node:18-alpine AS builder
+
+RUN apk add --update python3 make g++\
+   && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+
+COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
+COPY tsconfig.base.json /app/tsconfig.base.json
+COPY ./.env-tappui /app/.env
+
+COPY /apps/tappui/ /app/apps/tappui
+
+RUN yarn install --frozen-lockfile
+
+RUN yarn build:tappui:prod
+
+FROM node:18-alpine
+
+COPY --from=builder /app/node_modules /node_modules
+COPY --from=builder /app/apps/tappui/.next /.next
+COPY --from=builder /app/package.json /
+COPY --from=builder /app/.env /.env
+
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s \
+    CMD curl --fail http://localhost:3000 || exit 1
+
+CMD ["yarn", "run", "start:tappui:prod"]

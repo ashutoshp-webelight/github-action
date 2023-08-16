@@ -1,0 +1,212 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "off",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "camelcase": "warn",
+        "implicit-arrow-linebreak": ["off", "beside"],
+        "max-lines": [
+          "error",
+          {
+            "max": 200,
+            "skipComments": true,
+            "skipBlankLines": true
+          }
+        ],
+        "max-params": ["error", 4],
+        "operator-linebreak": ["off"],
+        "prefer-destructuring": "warn",
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          }
+        ],
+        //no
+        "no-return-await": "error",
+        "no-restricted-exports": "off",
+        "no-var": "error",
+        "no-console": "error",
+        "no-nested-ternary": "warn",
+        "no-unneeded-ternary": "warn",
+        "no-empty-pattern": "error",
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 1,
+            "maxEOF": 1
+          }
+        ],
+        // import
+        "import/newline-after-import": ["error"],
+        "import/extensions": "off",
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": "off",
+        //object
+        "object-shorthand": "error",
+        "object-curly-newline": [
+          "off",
+          {
+            "ObjectExpression": {
+              "minProperties": 4,
+              "multiline": true,
+              "consistent": true
+            },
+            "ObjectPattern": {
+              "minProperties": 4,
+              "multiline": true,
+              "consistent": true
+            },
+            "ImportDeclaration": {
+              "minProperties": 4,
+              "multiline": true,
+              "consistent": true
+            },
+            "ExportDeclaration": {
+              "minProperties": 4,
+              "multiline": true,
+              "consistent": true
+            }
+          }
+        ],
+        "object-curly-spacing": ["off", "always"],
+        "object-property-newline": [
+          "off",
+          {
+            "allowAllPropertiesOnSameLine": true,
+            "allowMultiplePropertiesPerLine": false
+          }
+        ],
+        // comma
+        "comma-dangle": [
+          "off",
+          {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
+          }
+        ],
+        "comma-spacing": [
+          "off",
+          {
+            "before": false,
+            "after": true
+          }
+        ],
+        // react
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-unused-prop-types": "error",
+        "react/self-closing-comp": "error",
+        "react/jsx-closing-bracket-location": "warn",
+        "react/jsx-boolean-value": "warn",
+        "react/require-default-props": "off",
+        "react/jsx-key": "error",
+        "react/no-array-index-key": "off",
+        "react-hooks/exhaustive-deps": "error",
+        "react/function-component-definition": [
+          "error",
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+        ],
+        "react/jsx-wrap-multilines": [
+          "off",
+          {
+            "declaration": "parens-new-line",
+            "assignment": "parens-new-line",
+            "return": "parens-new-line",
+            "arrow": "parens-new-line",
+            "condition": "parens-new-line",
+            "logical": "parens-new-line",
+            "prop": "parens-new-line"
+          }
+        ],
+        //typescript
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/no-shadow": "warn",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-loop-func": "warn",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-inferrable-types": "warn",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-empty-interface": "error",
+        "@typescript-eslint/ban-types": ["error"],
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/return-await": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/comma-dangle": [
+          "off",
+          {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline",
+            "enums": "always-multiline",
+            "generics": "always-multiline",
+            "tuples": "always-multiline"
+          }
+        ],
+        "@typescript-eslint/comma-spacing": [
+          "off",
+          {
+            "before": false,
+            "after": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "varsIgnorePattern": "^_",
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "@typescript-eslint/quotes": [
+          0,
+          "single",
+          {
+            "avoidEscape": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    }
+  ]
+}

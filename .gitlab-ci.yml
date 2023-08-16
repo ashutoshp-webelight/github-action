@@ -1,0 +1,19 @@
+image: docker:latest
+
+stages:
+  - build
+  - deploy
+
+services:
+  - docker:dind
+
+before_script:
+  - echo "Preparing environment"
+
+build_app1:
+  stage: build
+  script:
+    - echo "Building App 1 image..."
+    - docker build -t app1-image -f Dockerfileui.yaml .
+
+
