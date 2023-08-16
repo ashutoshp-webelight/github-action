@@ -18,5 +18,5 @@ jobs:
     - name: Delete old docker container
       run: sudo rm -f 091219920/tappuiadmin:latest || true
     - name: Run Docker conatiner
-      run: NAME=tappstruiadmin DOCKER_PORT=9002 DOCKER_COMPOSE_IMAGE_NAME=91219920/tappuiadmin:latest docker-compose -f Dockerfile.tappuiadmin up -d
+      run: NAME=tappstruiadmin DOCKER_PORT=9002 DOCKER_COMPOSE_IMAGE_NAME=91219920/tappuiadmin:latest docker compose -f Dockerfile.tappuiadmin up -d
       
