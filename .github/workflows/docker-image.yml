@@ -1,9 +1,8 @@
 name: CI pipeline
 
 on:
-  workflow_run:
-    workflows: ["CI Pipeline"]
-    types: completed
+  push: 
+    branches: ["main"]
 
 jobs:
 
