@@ -22,5 +22,5 @@ jobs:
           NAME=tappstruiadmin
           DOCKER_PORT=9002
           DOCKER_COMPOSE_IMAGE_NAME=91219920/tappuiadmin:latest
-          docker compose -f /var/www/github-action/Dockerfile.tappuiadmin up -d
+          docker compose -f /var/www/github-action/tappuiadmin.docker-compose.yml up -d
 
