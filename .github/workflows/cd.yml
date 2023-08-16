@@ -1,0 +1,22 @@
+name: Docker Image CD pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+    - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull Docker image
+      run: sudo docker pull 091219920/tappuiadmin:latest
+    - name: Delete old docker container
+      run: sudo rm -f 091219920/tappuiadmin:latest || true
+    - name: Run Docker conatiner
+      run: NAME=tappstruiadmin DOCKER_PORT=9002 DOCKER_COMPOSE_IMAGE_NAME=91219920/tappuiadmin:latest docker-compose -f Dockerfile.tappuiadmin up -d
+      
