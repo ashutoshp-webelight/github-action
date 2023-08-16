@@ -16,7 +16,7 @@ jobs:
       - name: Pull Docker image
         run: sudo docker pull 091219920/tappuiadmin:latest
       - name: Delete old docker container
-        run: sudo rm -f github-action-tappuiadmin-1 || true
+        run: docker rm -f github-action-tappuiadmin-1 || true
       - name: Run Docker container
         run: |
           NAME=tappstruiadmin
