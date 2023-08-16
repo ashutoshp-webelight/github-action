@@ -19,6 +19,6 @@ jobs:
       run: docker login -u 091219920 -p AyCvsX3TfcAm5NYV
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$(date +%s)
+      run: docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:latest
     - name: Push to Docker hub
-      run: docker push 091219920/tappuiadmin:$(date +%s)
+      run: docker push 091219920/tappuiadmin:latest
