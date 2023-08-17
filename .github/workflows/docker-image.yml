@@ -2,7 +2,8 @@ name: CI pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
 
 jobs:
   build_tappui_image:
@@ -10,46 +11,45 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Print Git commit hash
+        run: echo "Git commit hash: ${{ github.sha }}"
       - name: Build the Docker image for tappui
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
-          docker build . --file Dockerfile.tappui --tag 091219920/tappui:$githash
-          docker push 091219920/tappui:$githash
+          docker build . --file Dockerfile.tappui --tag 091219920/tappui:${{ github.sha }}
+          docker push 091219920/tappui:${{ github.sha }}
 
-  
   build_tappuiadmin_image:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Build the Docker image for tappui
+      - name: Print Git commit hash
+        run: echo "Git commit hash: ${{ github.sha }}"
+      - name: Build the Docker image for tappuiadmin
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
-          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
-          docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$githash
-          docker push 091219920/tappuiadmin:$githash
-
+          docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:${{ github.sha }}
+          docker push 091219920/tappuiadmin:${{ github.sha }}
 
   build_tappweb_image:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+      - name: Print Git commit hash
+        run: echo "Git commit hash: ${{ github.sha }}"
       - name: Build the Docker image for tappweb
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
-          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
-          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:$githash
-          docker push 091219920/tappweb:$
+          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:${{ github.sha }}
+          docker push 091219920/tappweb:${{ github.sha }}
