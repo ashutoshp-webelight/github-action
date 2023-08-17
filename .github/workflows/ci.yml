@@ -18,7 +18,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-        if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappui')" ]]; then
+          if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappui')" ]]; then
             # Only deploy when changes are made inside the specified folder
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker build . --file Dockerfile.tappui --tag 091219920/tappui:lll
