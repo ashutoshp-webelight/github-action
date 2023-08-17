@@ -47,4 +47,5 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh ubuntu@ip-172-31-94-58 "cd /var/www/tappstr"
+        ssh username@ip-172-31-94-58.ec2.internal "cd /var/www/tappstr"
+
