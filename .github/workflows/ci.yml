@@ -28,7 +28,7 @@ jobs:
           fi
           
 
-  deploy_tappui:
+  build_tappui:
     runs-on: ubuntu-latest
     needs: build_tappui_image
     steps:
@@ -38,6 +38,7 @@ jobs:
       - name: Check for changes in specified folder
         id: check_changes
         run: |
+          git fetch origin --depth=1
           CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E '^(A|M)\s+apps/tappuiadmin/')
           echo "::set-output name=changed_files::$CHANGED_FILES"
 
