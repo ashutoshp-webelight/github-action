@@ -18,9 +18,15 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-          docker build . --file Dockerfile.tappui --tag 091219920/tappui:lll
-          docker push 091219920/tappui:lll
+        if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappui')" ]]; then
+            # Only deploy when changes are made inside the specified folder
+            docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+            docker build . --file Dockerfile.tappui --tag 091219920/tappui:lll
+            docker push 091219920/tappui:lll
+          else
+            echo "No changes in the specified folder. Skipping deployment."
+          fi
+          
 
   build_tappuiadmin_image:
     runs-on: ubuntu-latest
@@ -56,6 +62,12 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:lll
-          docker push 091219920/tappweb:lll
+          if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappweb')" ]]; then
+            # Only deploy when changes are made inside the specified folder
+            docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+            docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:lll
+            docker push 091219920/tappweb:lll
+          else
+            echo "No changes in the specified folder. Skipping deployment."
+          fi
+          
