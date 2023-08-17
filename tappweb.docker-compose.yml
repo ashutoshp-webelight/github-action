@@ -23,7 +23,8 @@ services:
     container_name: '${NAME}-strapi'
     image: naskio/strapi
     restart: unless-stopped
-
+    env_file:
+      - .env
     environment:
       DATABASE_CLIENT: "${DATABASE_CLIENT}"
       DATABASE_HOST: postgresql
