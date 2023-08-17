@@ -9,24 +9,28 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    
     steps:
+      - name: Print Git commit hash
+        run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
       - name: Pull Docker image for tappuiadmin
-        run: docker pull 091219920/tappuiadmin:$githash
+        run: docker pull 091219920/tappuiadmin:$COMMIT_HASH
       - name: Delete old docker container for tappuiadmin
         run: docker rm -f github-action-tappuiadmin-1 || true
+
       - name: Run Docker container for tappuiadmin
         run: |
-          if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappuiadmin')" ]]; then
-            # Only deploy when changes are made inside the specified folder
+          # if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappuiadmin')" ]]; then
+          #   # Only deploy when changes are made inside the specified folder
             NAME=tappuiadmin
             AWS_REGION=us-east-1
             AWS_LOGS_GROUP=github
             DOCKER_PORT=9002
-            DOCKER_COMPOSE_IMAGE_NAME=091219920/tappuiadmin:$githash
+            DOCKER_COMPOSE_IMAGE_NAME=091219920/tappuiadmin:$COMMIT_HASH
             docker compose -f /var/www/tappstr/tappuiadmin.docker-compose.yml --env-file /var/www/tappstr/.env-tappui up -d
-          else
-            echo "No changes in the specified folder. Skipping deployment."
-          fi
+          # else
+          #   echo "No changes in the specified folder. Skipping deployment."
+          # fi
           
 
       # - name: Pull Docker image for tappui
@@ -38,16 +42,18 @@ jobs:
       #     NAME=tappui
       #     # Add environment variables and other settings for tappui container
       #     docker compose -f /path/to/tappui.docker-compose.yml up -d
-
+      - name: Print Git commit hash
+        run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
       - name: Pull Docker image for tappweb
-        run: docker pull 091219920/tappweb:$githash
+        run: docker pull 091219920/tappweb:$COMMIT_HASH
       - name: Delete old docker container for tappweb
         run: docker rm -f  tappweb tappweb-postgresql tappweb-strapi|| true
+
       - name: Run Docker container for tappweb
         run: |
           if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappweb')" ]]; then
             # Only deploy when changes are made inside the specified folder
-            NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:$githash docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file /var/www/tappstr/.env-tappweb up -d
+            NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:$COMMIT_HASH docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file /var/www/tappstr/.env-tappweb up -d
           else
             echo "No changes in the specified folder. Skipping deployment."
           fi
