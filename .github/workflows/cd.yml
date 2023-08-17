@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: self-hosted
     
-     steps:
+    steps:
       - name: Print Git commit hash
         run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
       - name: Pull Docker image for tappuiadmin
