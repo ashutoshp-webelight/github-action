@@ -44,18 +44,23 @@ jobs:
       #     CHANGED_FILES=$(git diff --name-status "HEAD^" HEAD | grep -E '^(A|M)\s+apps/tappuiadmin/')
       #     echo "::set-output name=changed_files::$CHANGED_FILES"
 
+      # if [[ -n "${{ steps.check_changes.outputs.changed_files }}" ]]; then
+          #   # Only deploy when new files are added or existing files are modified in the specified folder
+          # docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+            # docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$COMMIT_HASH --build-arg GIT_COMMIT=$COMMIT_HASH
+            # docker push 091219920/tappuiadmin:$COMMIT_HASH
+          # else
+          #   echo "No relevant changes in the specified folder. Skipping deployment."
+          # fi  
+
       - name: Deploy Docker Compose
         env:
           DOCKER_COMPOSE_IMAGE_NAME: 091219920/tappui:latest
         run: |
-          # if [[ -n "${{ steps.check_changes.outputs.changed_files }}" ]]; then
-          #   # Only deploy when new files are added or existing files are modified in the specified folder
-            # docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-            # docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$COMMIT_HASH --build-arg GIT_COMMIT=$COMMIT_HASH
-            docker push 091219920/tappuiadmin:$COMMIT_HASH
-          # else
-          #   echo "No relevant changes in the specified folder. Skipping deployment."
-          # fi         
+          
+            docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+            docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$COMMIT_HASH --build-arg GIT_COMMIT=$COMMIT_HASH
+            docker push 091219920/tappuiadmin:$COMMIT_HASH         
 
   build_tappweb_image:
     runs-on: ubuntu-latest
