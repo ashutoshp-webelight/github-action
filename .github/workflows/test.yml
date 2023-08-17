@@ -47,4 +47,4 @@ jobs:
 
       - name: Deploy to Server
         run: |
-         ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com "cd /var/www/tappstr"
+         ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com "cd /var/www/tappstr && ls -la"
