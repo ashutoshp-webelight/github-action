@@ -62,12 +62,11 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappweb')" ]]; then
-            # Only deploy when changes are made inside the specified folder
+        if [[ -n "$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E 'apps/tappweb/')" ]]; then
+            # Only deploy when new files are added or existing files are modified in the specified folder
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:lll
             docker push 091219920/tappweb:lll
           else
-            echo "No changes in the specified folder. Skipping deployment."
+            echo "No relevant changes in the specified folder. Skipping deployment."
           fi
-          
