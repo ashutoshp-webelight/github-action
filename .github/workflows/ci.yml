@@ -39,7 +39,7 @@ jobs:
         id: check_changes
         run: |
           git fetch origin --depth=1
-          CHANGED_FILES=$(git diff --name-status HEAD^ HEAD | grep -E '^(A|M)\s+apps/tappuiadmin/')
+          CHANGED_FILES=$(git diff --name-status "HEAD^" HEAD | grep -E '^(A|M)\s+apps/tappuiadmin/')
           echo "::set-output name=changed_files::$CHANGED_FILES"
 
       - name: Deploy Docker Compose
