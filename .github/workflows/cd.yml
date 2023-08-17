@@ -36,6 +36,6 @@ jobs:
       - name: Pull Docker image for tappweb
         run: sudo docker pull 091219920/tappweb:ww
       - name: Delete old docker container for tappweb
-        run: docker rm -f tappstr || true
+        run: docker rm -f  tappweb tappweb-postgresql tappweb-strapi|| true
       - name: Run Docker container for tappweb
         run: NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:ww docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file /var/www/tappstr/.env-tappweb up -d
