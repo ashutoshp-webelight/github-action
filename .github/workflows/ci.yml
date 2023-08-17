@@ -18,7 +18,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u 091219920 -p AyCvsX3TfcAm5NYV
+          docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
           docker build . --file Dockerfile.tappui --tag 091219920/tappui:lll
           docker push 091219920/tappui:lll
 
@@ -50,6 +50,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u 091219920 -p AyCvsX3TfcAm5NYV
+          docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
           docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:lll
           docker push 091219920/tappweb:lll
