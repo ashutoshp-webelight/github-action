@@ -41,7 +41,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
 
-          if [[ -n "$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E 'apps/tappuiadmin/')" ]]; then
+          if [[ -n "$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | jq '.[] | select(. | test(\"^A|M\\s+path/to/your/folder/\"))')" ]]; then
             # Only deploy when new files are added or existing files are modified in the specified folder
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:lll
