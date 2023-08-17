@@ -20,27 +20,31 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
-      # - name: Print Git commit hash
-      #   run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
-      # - name: Pull Docker image for tappuiadmin
-      #   run: docker pull 091219920/tappuiadmin:$COMMIT_HASH 
-      # - name: Delete old docker container for tappuiadmin
-      #   run: docker rm -f github-action-tappuiadmin-1 || true
+      - name: Print Git commit hash
+        run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
+      - name: Pull Docker image for tappuiadmin
+        run: docker pull 091219920/tappuiadmin:$COMMIT_HASH 
+      - name: Delete old docker container for tappuiadmin
+        run: docker rm -f github-action-tappuiadmin-1 || true
 
-      # - name: Run Docker container for tappuiadmin
-      #   run: |
-      #     # if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappuiadmin')" ]]; then
-      #     #   # Only deploy when changes are made inside the specified folder
-      #       ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com
-      #       NAME=tappuiadmin
-      #       AWS_REGION=us-east-1
-      #       AWS_LOGS_GROUP=github
-      #       DOCKER_PORT=9002
-      #       DOCKER_COMPOSE_IMAGE_NAME=091219920/tappuiadmin:$COMMIT_HASH
-      #       docker compose -f /var/www/tappstr/tappuiadmin.docker-compose.yml --env-file /var/www/tappstr/.env-tappui up -d
-      #     # else
-      #     #   echo "No changes in the specified folder. Skipping deployment."
-      #     # fi
+
+        
+          # if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappuiadmin')" ]]; then
+          #   # Only deploy when changes are made inside the specified folder
+
+          # else
+          #   echo "No changes in the specified folder. Skipping deployment."
+          # fi
+      - name: Run Docker container for tappuiadmin
+        run: |
+            ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com "cd /var/www/tappstr
+            NAME=tappuiadmin
+            AWS_REGION=us-east-1
+            AWS_LOGS_GROUP=github
+            DOCKER_PORT=9002
+            DOCKER_COMPOSE_IMAGE_NAME=091219920/tappuiadmin:$COMMIT_HASH
+            docker compose -f /var/www/tappstr/tappuiadmin.docker-compose.yml --env-file /var/www/tappstr/.env-tappui up -d "
+          
           
 
       # - name: Pull Docker image for tappui
