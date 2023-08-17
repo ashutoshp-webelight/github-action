@@ -44,4 +44,4 @@ jobs:
           AWS_LOGS_GROUP=github
           DOCKER_PORT=9005 
           DOCKER_COMPOSE_IMAGE_NAME=tapstrrweb:latest
-          docker compose -f /path/to/tappweb.docker-compose.yml up -d
+          docker compose -f /var/www/github-action/tappweb.docker-compose.yml up -d
