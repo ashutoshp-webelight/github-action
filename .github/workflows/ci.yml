@@ -28,27 +28,31 @@ jobs:
           fi
           
 
-  build_tappuiadmin_image:
+  deploy_tappui:
     runs-on: ubuntu-latest
-
+    needs: build_tappui_image
     steps:
-      - uses: actions/checkout@v2
-      # - name: Print Git commit hash
-      #   run: echo "Git commit hash: ${{ github.sha }}"
-      - name: Build the Docker image for tappuiadmin
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-          if [[ -n "$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | jq '.[] | select(. | test(\"^A|M\\s+apps/tappuiadmin/\"))')" ]]; then
+      - name: Check for changes in specified folder
+        id: check_changes
+        run: |
+          CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E '^(A|M)\s+path/to/your/folder/')
+          echo "::set-output name=changed_files::$CHANGED_FILES"
+
+      - name: Deploy Docker Compose
+        env:
+          DOCKER_COMPOSE_IMAGE_NAME: 091219920/tappui:latest
+        run: |
+          if [[ -n "${{ steps.check_changes.outputs.changed_files }}" ]]; then
             # Only deploy when new files are added or existing files are modified in the specified folder
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:lll
             docker push 091219920/tappuiadmin:lll
           else
             echo "No relevant changes in the specified folder. Skipping deployment."
-          fi          
+          fi         
 
   build_tappweb_image:
     runs-on: ubuntu-latest

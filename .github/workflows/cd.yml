@@ -45,7 +45,7 @@ jobs:
         run: docker rm -f  tappweb tappweb-postgresql tappweb-strapi|| true
       - name: Run Docker container for tappweb
         run: |
-        if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappweb')" ]]; then
+          if [[ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'apps/tappweb')" ]]; then
             # Only deploy when changes are made inside the specified folder
             NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:$githash docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file /var/www/tappstr/.env-tappweb up -d
           else
