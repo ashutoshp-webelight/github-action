@@ -4,7 +4,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=shared \
     apk add build-base libffi-dev
 
 COPY ./apps/tappweb/alembic.ini ./apps/tappweb/poetry.lock ./apps/tappweb/pyproject.toml /code/
-COPY ./..env-tappweb /code/.env
+COPY ./.env-tappweb /code/.env
 COPY ./apps/tappweb/src /code
 
 WORKDIR /code
