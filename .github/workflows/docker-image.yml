@@ -1,7 +1,5 @@
 name: CI pipeline
 
-echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
-
 on:
   push:
     branches: ["main"]
@@ -33,6 +31,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
+          echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
           # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
           docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$githash
@@ -49,7 +48,8 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
+        echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
           # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
           docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:$githash
-          docker push 091219920/tappweb:$githash
+          docker push 091219920/tappweb:$
