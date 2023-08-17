@@ -49,5 +49,5 @@ jobs:
         run: |
           # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker login -u 091219920 -p AyCvsX3TfcAm5NYV
-          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:www
-          docker push 091219920/tappweb:www
+          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:ww
+          docker push 091219920/tappweb:ww

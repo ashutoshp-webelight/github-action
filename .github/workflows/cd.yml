@@ -34,8 +34,8 @@ jobs:
       #     docker compose -f /path/to/tappui.docker-compose.yml up -d
 
       - name: Pull Docker image for tappweb
-        run: sudo docker pull 091219920/tappweb:nnnn
+        run: sudo docker pull 091219920/tappweb:ww
       - name: Delete old docker container for tappweb
         run: docker rm -f tappstr || true
       - name: Run Docker container for tappweb
-        run: NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:nnnn docker compose -f /var/www/github-action/tappweb.docker-compose.yml --env-file /var/www/github-action/.env-tappweb up -d
+        run: NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:ww docker compose -f /var/www/github-action/tappweb.docker-compose.yml --env-file /var/www/github-action/.env-tappweb up -d
