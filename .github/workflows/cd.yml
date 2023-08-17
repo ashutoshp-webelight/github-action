@@ -44,4 +44,4 @@ jobs:
           AWS_LOGS_GROUP=github
           DOCKER_PORT=9005 
           DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:1244
-          docker compose -f /var/www/github-action/tappweb.docker-compose.yml --env-file /var/www/github-action/.env-tappweb up -d
+          docker compose -f /var/www/github-action/tappweb.docker-compose.yml up -d
