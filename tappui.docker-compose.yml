@@ -4,8 +4,6 @@ services:
     image: "${DOCKER_COMPOSE_IMAGE_NAME}"
     build:
       dockerfile: Dockerfile.tappui
-    env_file:
-      - .env-tappui
     ports:
       - "${DOCKER_PORT}:3000"
     logging:

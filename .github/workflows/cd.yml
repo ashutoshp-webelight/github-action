@@ -21,7 +21,7 @@ jobs:
           AWS_LOGS_GROUP=github
           DOCKER_PORT=9002
           DOCKER_COMPOSE_IMAGE_NAME=091219920/tappuiadmin:latest
-          docker compose -f /var/www/github-action/tappuiadmin.docker-compose.yml up -d
+          docker compose -f /var/www/tappstr/tappuiadmin.docker-compose.yml --env-file /var/www/tappstr/.env-tappui up -d
 
       # - name: Pull Docker image for tappui
       #   run: sudo docker pull 091219920/tappui:latest
@@ -38,4 +38,4 @@ jobs:
       - name: Delete old docker container for tappweb
         run: docker rm -f tappstr || true
       - name: Run Docker container for tappweb
-        run: NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:ww docker compose -f /var/www/github-action/tappweb.docker-compose.yml --env-file /var/www/github-action/.env-tappweb up -d
+        run: NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:ww docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file /var/www/tappstr/.env-tappweb up -d
