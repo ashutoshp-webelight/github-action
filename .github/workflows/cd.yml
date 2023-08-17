@@ -14,7 +14,7 @@ jobs:
       - name: Print Git commit hash
         run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
       - name: Pull Docker image for tappuiadmin
-        run: docker pull 091219920/tappuiadmin:$COMMIT_HASH
+        run: docker pull 091219920/tappuiadmin:$COMMIT_HASH 
       - name: Delete old docker container for tappuiadmin
         run: docker rm -f github-action-tappuiadmin-1 || true
 
