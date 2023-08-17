@@ -37,12 +37,12 @@ jobs:
       - name: Print Git commit hash
         run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
 
-      - name: Check for changes in specified folder
-        id: check_changes
-        run: |
-          git fetch origin 
-          CHANGED_FILES=$(git diff --name-status "HEAD^" HEAD | grep -E '^(A|M)\s+apps/tappuiadmin/')
-          echo "::set-output name=changed_files::$CHANGED_FILES"
+      # - name: Check for changes in specified folder
+      #   id: check_changes
+      #   run: |
+      #     git fetch origin 
+      #     CHANGED_FILES=$(git diff --name-status "HEAD^" HEAD | grep -E '^(A|M)\s+apps/tappuiadmin/')
+      #     echo "::set-output name=changed_files::$CHANGED_FILES"
 
       - name: Deploy Docker Compose
         env:
