@@ -38,7 +38,7 @@ jobs:
       - name: Check for changes in specified folder
         id: check_changes
         run: |
-          CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E '^(A|M)\s+path/to/your/folder/')
+          CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }} | grep -E '^(A|M)\s+apps/tappuiadmin/')
           echo "::set-output name=changed_files::$CHANGED_FILES"
 
       - name: Deploy Docker Compose
