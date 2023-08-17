@@ -4,8 +4,8 @@ services:
     image: "${DOCKER_COMPOSE_IMAGE_NAME}"
     build:
       dockerfile: Dockerfile.tappuiadmin
-    env_file:
-      - .env-tappuiadmin
+    # env_file:
+    #   - .env-tappuiadmin
     ports:
       - "${DOCKER_PORT}:80"
     # logging:
