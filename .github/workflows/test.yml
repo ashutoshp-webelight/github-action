@@ -47,5 +47,5 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh ubuntu@ip-172-31-94-58.ec2.internal "cd /var/www/tappstr"
+          ssh ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com "cd /var/www/tappstr"
 
