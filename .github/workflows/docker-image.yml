@@ -1,25 +1,53 @@
 name: CI pipeline
 
 on:
-  push: 
+  push:
     branches: ["main"]
 
 jobs:
-
-  build:
-
+  build_tappui_image:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      env:
-          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      # run: docker login -u 091219920 -p AyCvsX3TfcAm5NYV
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - uses: actions/checkout@v2
+      - name: Build the Docker image for tappui
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker login -u 091219920 -p AyCvsX3TfcAm5NYV
+          docker build . --file Dockerfile.tappui --tag 091219920/tappui:latest
+          docker push 091219920/tappui:latest
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:latest
-    - name: Push to Docker hub
-      run: docker push 091219920/tappuiadmin:latest
+  
+  build_tappui_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image for tappui
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker login -u 091219920 -p AyCvsX3TfcAm5NYV
+          docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:latest
+          docker push 091219920/tappuiadmin:latest
+
+
+  build_tappweb_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image for tappweb
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker login -u 091219920 -p AyCvsX3TfcAm5NYV
+          docker build . --file Dockerfile.tappweb --tag 091219920/tappweb:latest
+          docker push 091219920/tappweb:latest
