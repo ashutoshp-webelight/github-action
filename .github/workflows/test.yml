@@ -14,11 +14,11 @@ jobs:
       - name: Print Git commit hash
         run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
 
-      - name: Build the Docker image for tappui
+      - name: Build the Docker image for tappuiadmin
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-          docker build . --file Dockerfile.tappui --tag 091219920/tappui:$COMMIT_HASH --build-arg GIT_COMMIT=$COMMIT_HASH
-          docker push 091219920/tappui:$COMMIT_HASH
+          docker build . --file Dockerfile.tappuiadmin --tag 091219920/tappuiadmin:$COMMIT_HASH --build-arg GIT_COMMIT=$COMMIT_HASH
+          docker push 091219920/tappuiadmin:$COMMIT_HASH
