@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build_tappui_image:
+  build_tappuiadmin_image:
     runs-on: ubuntu-latest
 
     steps:
