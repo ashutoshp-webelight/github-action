@@ -61,7 +61,7 @@ jobs:
 
       - name: Run Docker container for tappweb
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com  "cd /var/www/tappstr"
-          NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:$COMMIT_HASH docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file .env-tappweb up -d
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-233-131-68.compute-1.amazonaws.com  "cd /var/www/tappstr
+          NAME=tappweb DOCKER_PORT=9005 DOCKER_COMPOSE_IMAGE_NAME=091219920/tappweb:$COMMIT_HASH docker compose -f /var/www/tappstr/tappweb.docker-compose.yml --env-file .env-tappweb up -d "
           
           
