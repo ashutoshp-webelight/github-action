@@ -53,6 +53,8 @@ services:
   postgresql:
     image: "postgres:alpine"
     container_name: "${NAME}-postgresql"
+    env_file:
+      - .env-tappweb
     environment:
       - "POSTGRES_USER=${DATABASE_USER}"
       - "POSTGRES_PASSWORD=${DATABASE_PASSWORD}"
@@ -61,8 +63,7 @@ services:
       - postgresql:/data/postgres
     networks:
       - default
-    env_file:
-      - .env-tappweb
+
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME} -h localhost -p 5432" ]
       start_period: 5s
