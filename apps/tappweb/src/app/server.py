@@ -77,7 +77,7 @@ def start_exception_handlers(_app: FastAPI) -> None:
         logger.exception(f"{exc.__class__.__name__}: {str(exc)}")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"status": "error", "code": exc.status_code, "message": str(exc)},
+            content={"status": "error", "code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(exc)},
         )
 
     @_app.exception_handler(CustomException)
